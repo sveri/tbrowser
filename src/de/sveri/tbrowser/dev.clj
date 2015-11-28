@@ -79,20 +79,24 @@
 
 (defn ->webengine [webview]
   (let [webengine (.getEngine webview)]
-      (.setJavaScriptEnabled webengine true)
+      (.setJavaScriptEnabled webengine false)
       (.load webengine "http://heise.de")
       webengine))
 
 (defn anchor-test []
-  (let [
+  (let [urifield (fx/text-field :#urifield {:prefWidth 700 :prefHeight 180 :text "http://"})
+
         webview (fill-anchor-pane (fx/web-view :#webview))
         webengine (->webengine webview)
-        webview-anchor-pane (fill-anchor-pane (fx/anchor-pane :#ap {} webview))
 
-        title-pane (fx/title-pane :#title-pane {} webview-anchor-pane)
+        go-btn (fx/button :#go-btn {:text "Go" :on-action (partial open-uri webengine urifield)})
+        uri-h-box (fx/h-box :#uri-h-box {:prefHeight 21} urifield go-btn)
 
-        view title-pane]
-        ;view (fx/v-box :#main-v-box {} webview-anchor-pane)]
+
+
+
+
+        view (fx/border-pane :border-pane {:center webview :top uri-h-box})]
     (->webengine webview)
     view))
 
@@ -104,7 +108,7 @@
 
 
 
-
+;{:max-height 1.7976931348623157E308 :max-width 1.7976931348623157E308}
 
 
 ;working
